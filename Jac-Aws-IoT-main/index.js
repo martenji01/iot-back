@@ -6,6 +6,10 @@ import express from "express";
 import Datalogs from './mongoose/datalogs.js'
 import Alarms from './mongoose/alarms.js'
 
+await checkMasterCertificate();
+
+await initDevice();
+
 const app = express();
 
 app.use(cors())
@@ -14,10 +18,10 @@ app.use(cors())
 await databaseconnect ()
 
 // downloading remote cert to connect
-await checkMasterCertificate();
+
 
 // connect to mqtt queue
-await initDevice();
+
 
 await databaseconnect ()
 

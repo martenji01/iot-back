@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import * as os from 'os';
 import datalogs from '../mongoose/datalogs.js'
 import alarms from '../mongoose/alarms.js';
-
+import fs from 'fs'
 // setting aws region to connect
 AWS.config.update({ region: 'eu-central-1' });
 
@@ -17,8 +17,9 @@ const alarmType = {
 const iot = new AWS.Iot();
 
 let device;
-
-export function initDevice() {
+console.log()
+export function initDevice() { 
+  
     device = awsIot.device({
         keyPath: `${os.tmpdir()}/${secretMasterName}.private.pem.key`,
         certPath: `${os.tmpdir()}/${secretMasterName}.certificate.pem.crt`,
@@ -55,23 +56,42 @@ function parser(message) {
 
     const createAsync = async() => {
         const datalogMesg = await datalogs.create ({...objectMessage, creatorMessage: CREATOR_NAME})
+        createAlarm(datalogMesg)
     }
 
-    const createAlarm = async()=>{
-        if(datalogMesg.value > 20)
-            await alarms.create ({
-                logId: datalogMesg._id,
-                creatorMessage :CREATOR_NAME,
-                alarmType: alarmType.OVER
-            })
+    const createAlarm = async(datalogMesg)=>{
         
-            if(datalogMesg.value < 20)
-            await alarms.create ({
-                logId: datalogMesg._id,
-                creatorMessage :CREATOR_NAME,
-                alarmType: alarmType.UNDER
-            })
+        if(datalogMesg.value > 20)
+        await alarms.create ({
+            logId: datalogMesg._id,
+            status: 'start',
+            creatorMessage :CREATOR_NAME,
+            alarmType: alarmType.OVER,
+            date_start:Date.now()
+        }) 
+    
+        if(datalogMesg.value = 20){
+        const allarm = await alarms.findOne(({status:'start'})).sort({data_start:-1});
+        if (!allarm) return 
+        else 
+        console.log('stop')
+        allarm.status = 'stop'
+        allarm.date_end = Date.now()
+        await allarm.save()
+        } 
+
+        if(datalogMesg.value < 20)
+        await alarms.create ({
+            logId: datalogMesg._id,
+            creatorMessage :CREATOR_NAME,
+            alarmType: alarmType.UNDER,
+            date_start:Date.now()
+        })
+
+
     }
+    
+
     createAsync();
 }
 

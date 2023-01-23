@@ -19,8 +19,14 @@ const alarmSchema = new Schema({
         type: String,
         enum: ['over', 'under']
     },
-    date_start: {},
-    date_end: {}
+    date_start: {
+        type: Date, 
+        default: Date.now
+    },
+  
+    date_end: {
+        type: Date,
+    }
 });
 
 const model = mongoose.model("alarms", alarmSchema);
