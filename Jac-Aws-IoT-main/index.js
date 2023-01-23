@@ -1,10 +1,12 @@
 import { checkMasterCertificate } from "./iot/certManager.js";
 import { initDevice } from "./iot/index.js";
 import {databaseconnect} from "./mongoose/database.js"
-
+import cors from "cors"
 import express from "express";
 
 const app = express();
+
+app.use(cors())
 
 // connesione al db 
 await databaseconnect ()
