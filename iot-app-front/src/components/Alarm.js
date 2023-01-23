@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Alert } from "@mui/material"
-import {severityLevel, alarmStatus, alarmType, convertTime} from '../utils/const.js'
+import {severityLevel, alarmStatus, alarmType} from '../utils/const.js'
 
 const Alarm = ({alarm}) => {
     const [message, setMessage] = useState('')
