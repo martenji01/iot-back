@@ -45,8 +45,6 @@ const ChartLine = ({list, title, property}) => {
 
         // Will display time in 10:30:23 format
         var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-        console.log(formattedTime);
         return formattedTime
       }
     const labels = list ? list.map((log)=>convertTimestamp(log[datalog_properties.timestamp])) : [];
@@ -79,8 +77,10 @@ const ChartLine = ({list, title, property}) => {
         })
         setDatasetList(listData)
       }
+
     useEffect(()=>{
         console.log({list})
+        console.log(property + ' updated')
         loadDataset()
     }, [list])
 
