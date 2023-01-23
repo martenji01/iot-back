@@ -53,3 +53,7 @@ function parser(message) {
     }
     createAsync();
 }
+
+export function getElement(){
+    
+}
