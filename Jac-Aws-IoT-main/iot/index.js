@@ -1,13 +1,18 @@
-import { secretMasterName, host } from '../config.js';
+import { secretMasterName, host, CREATOR_NAME } from '../config.js';
 import awsIot from 'aws-iot-device-sdk';
 import AWS from 'aws-sdk';
 import mongoose from 'mongoose'
-
 import * as os from 'os';
-import datalogs from '../mongoose/schema.js'
+import datalogs from '../mongoose/datalogs.js'
+import alarms from '../mongoose/alarms.js';
 
 // setting aws region to connect
 AWS.config.update({ region: 'eu-central-1' });
+
+const alarmType = {
+    OVER: 'over',
+    UNDER: 'under'
+}
 
 const iot = new AWS.Iot();
 
@@ -49,7 +54,23 @@ function parser(message) {
     console.log(objectMessage);
 
     const createAsync = async() => {
-        await datalogs.create ({...objectMessage, creatorName:"andreaCasta"});    
+        const datalogMesg = await datalogs.create ({...objectMessage, creatorMessage: CREATOR_NAME})
+    }
+
+    const createAlarm = async()=>{
+        if(datalogMesg.value > 20)
+            await alarms.create ({
+                logId: datalogMesg._id,
+                creatorMessage :CREATOR_NAME,
+                alarmType: alarmType.OVER
+            })
+        
+            if(datalogMesg.value < 20)
+            await alarms.create ({
+                logId: datalogMesg._id,
+                creatorMessage :CREATOR_NAME,
+                alarmType: alarmType.UNDER
+            })
     }
     createAsync();
 }

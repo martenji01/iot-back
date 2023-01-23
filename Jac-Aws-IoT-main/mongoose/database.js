@@ -1,16 +1,12 @@
-
-
 import mongoose from 'mongoose' 
-
+import { MONGODB_URI_MINE } from '../config.js'
 
 export function databaseconnect () {
 
-mongoose.connect("mongodb://localhost:27017/aws", {
+mongoose.connect(MONGODB_URI_MINE, {
    useNewUrlParser: true,
    useUnifiedTopology: true
 });
-
-
 
 mongoose.connection.on('error', err => {
     console.error('MongoDB connection error: ' + err);
@@ -20,8 +16,5 @@ mongoose.connection.on('error', err => {
   mongoose.connection.on('connected', () => {
     console.info('MongoDB connected');
   });
-
-
-
 
 }
