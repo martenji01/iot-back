@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { Grid} from "@mui/material"
 import { getDataLogs } from '../api/request.js'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import ChartLine from '../components/ChartLine.js';
+
 
 const datalog_properties = {
     timestamp: 'timestamp',
@@ -18,49 +10,8 @@ const datalog_properties = {
     hum: 'hum'
 }
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-  );
-
-  export const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'DataLog Cherry',
-      },
-    },
-  };
-  
 const Logs = () => {
     const [list, setList] = useState(null)
-    const labels = list ? list.map((log)=>log[datalog_properties.timestamp]) : [];
-    const data = {
-        labels,
-        datasets: [
-          {
-            label: 'Values',
-            data: list ? list.map((log)=>log[datalog_properties.value]) : [],
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-          },
-          {
-            label: 'Hum',
-            data: list ? list.map((log)=>log[datalog_properties.hum]) : [],
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-          },
-        ],
-      };
 
     const setLogsData = async ()=>{
         const list = await getDataLogs()
@@ -75,14 +26,16 @@ const Logs = () => {
         console.log({list})
     }, [list])
 
-    
   return (
-    <div>
-        {list? 'ok' : 'empty'}
-        <Line options={options} data={data} />
-    </div>
+    <Grid container spacing={3}>
+        <Grid item xs={12} md={6}><ChartLine list={list} title={'Hum'} property={[datalog_properties.hum]} /></Grid>
+        <Grid item xs={12} md={6} ><ChartLine list={list} title={'Values'} property={[datalog_properties.value]} /></Grid>
+        <Grid item xs={12}><ChartLine list={list} title={'Hum and Values'} property={[datalog_properties.hum, datalog_properties.value]} /></Grid>
+    </Grid>
+
   )
 }
+
 
 
 

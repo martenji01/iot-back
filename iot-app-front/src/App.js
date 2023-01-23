@@ -1,12 +1,11 @@
 import Alarms from "./pages/Alarms";
 import Logs from "./pages/Logs";
-
+import {Container } from '@mui/material'
 const App = ()=>{
   return (
-    <div className="App">
+    <Container maxWidth="xl" className="App">
       <Logs />
-      <Alarms />
-    </div>
+    </Container>
   );
 }
 
