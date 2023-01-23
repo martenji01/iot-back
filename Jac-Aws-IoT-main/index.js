@@ -31,14 +31,14 @@ app.use(express.json());
 app.get("/datalogs", async (req, res) => {
   const filters = req.query
   console.log({filters})
-  const allData = await Datalogs.find(filters);
+  const allData = await Datalogs.find(filters).sort({x:-1}).limit(30)
   return res.status(200).json(allData);
 });
 
 app.get("/alarms", async (req, res) => {
   const filters = req.query
   console.log({filters})
-  const allData = await Alarms.find(filters)
+  const allData = await Alarms.find(filters).sort({x:-1}).limit(30)
 
   return res.status(200).json(allData);
 });
