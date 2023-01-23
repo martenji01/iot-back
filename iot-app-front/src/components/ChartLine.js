@@ -12,12 +12,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-
-const datalog_properties = {
-    timestamp: 'timestamp',
-    value: 'value',
-    hum: 'hum'
-}
+import {datalog_properties} from '../utils/const.js'
 
 ChartJS.register(
     CategoryScale,

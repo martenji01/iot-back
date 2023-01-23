@@ -2,13 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Button} from "@mui/material"
 import { getDataLogs } from '../api/request.js'
 import ChartLine from '../components/ChartLine.js';
+import {datalog_properties} from '../utils/const.js'
 
-
-const datalog_properties = {
-    timestamp: 'timestamp',
-    value: 'value',
-    hum: 'hum'
-}
 
 const Logs = () => {
     const [list, setList] = useState(null)
