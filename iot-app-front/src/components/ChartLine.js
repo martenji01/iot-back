@@ -81,7 +81,6 @@ const ChartLine = ({list, title, property}) => {
 
   return (
     <Line options={options} data={data} />
-
   )
 }
 

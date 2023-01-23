@@ -5,6 +5,7 @@ const App = ()=>{
   return (
     <Container maxWidth="xl" className="App">
       <Logs />
+      <Alarms />
     </Container>
   );
 }

@@ -2,7 +2,7 @@ import './axios'
 import axios from 'axios'
 
 const creatorFilter = {
-    creatorName: 'cherry001'
+    creatorName: 'AndreaCasta'
 }
 
 export const getAlarms = async ()=>{

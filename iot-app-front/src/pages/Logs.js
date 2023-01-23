@@ -4,7 +4,6 @@ import { getDataLogs } from '../api/request.js'
 import ChartLine from '../components/ChartLine.js';
 import {datalog_properties} from '../utils/const.js'
 
-
 const Logs = () => {
     const [list, setList] = useState(null)
 
