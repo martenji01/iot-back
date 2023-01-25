@@ -1,3 +1,4 @@
+import moment from 'moment'
 export const datalog_properties = {
     timestamp: 'timestamp',
     value: 'value',
@@ -35,3 +36,11 @@ export const convertTimestamp = (unix_timestamp)=>{
     var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
     return formattedTime
   }
+
+export const fromTimestampToDate = (timestamp)=>{
+    return moment.unix(timestamp).format("HH:mm:ss")
+}
+
+export const fromISOtoDate = (date)=>{
+    return moment(date).format('DD-MM-YYYY HH:mm:ss')
+}
