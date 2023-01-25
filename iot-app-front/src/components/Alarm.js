@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Alert } from "@mui/material"
-import {severityLevel, alarmStatus, alarmType} from '../utils/const.js'
+import { Alert, AlertTitle } from "@mui/material"
+import {severityLevel, alarmStatus, alarmType, fromISOtoDate} from '../utils/const.js'
 
 const Alarm = ({alarm}) => {
     const [message, setMessage] = useState('')
@@ -20,10 +20,15 @@ const Alarm = ({alarm}) => {
             else
                 setStatus("Stopped")
         }
+
+        if(alarm.date_start)
+            setDateStart(fromISOtoDate(alarm.date_start))
             
     }, [alarm])
   return (
-    <Alert severity={severityLevel[alarm.alarmType] || 'warning'}>{message} : {status} ({ alarm.date_start|| 'data'})</Alert>
+    <Alert severity={severityLevel[alarm.alarmType] || 'warning'}>
+        <AlertTitle>{message}</AlertTitle>
+          {status} at ({ dateStart|| 'data'})</Alert>
   )
 }
 
